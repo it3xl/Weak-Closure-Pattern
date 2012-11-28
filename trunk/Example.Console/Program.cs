@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using WeakClosureProject;
 
 namespace Example.Console
 {
 	class Program
 	{
+
+
 		static void Main(string[] args)
 		{
 			var someState = new Object();
 
-
-			var objectSupplierStrongReference = new ObjectSupplier();
+			//private static
+				ObjectSupplier objectSupplierStrongReference = new ObjectSupplier();
 
 			var weakObjectSupplier = new WeakClosure<ObjectSupplier>(objectSupplierStrongReference);
 
@@ -28,6 +31,14 @@ namespace Example.Console
 						// You can use only the weakObjectSupplier!
 						//var forbidden_approach = someClosure_Dont_Do_So;
 
+
+						Thread.Sleep(TimeSpan.FromSeconds(3));
+						RunLoanMemory();
+						Thread.Sleep(TimeSpan.FromSeconds(3));
+						RunLoanMemory();
+						Thread.Sleep(TimeSpan.FromSeconds(3));
+
+
 						var objectSupplier = weakObjectSupplier
 							// You should understand what is the custom WeakReference{T} class at this project.
 							.TargetTyped;
@@ -41,6 +52,19 @@ namespace Example.Console
 
 						objectSupplier.DoSomeThing(someData);
 					});
+
+
+			var loop = true;
+			while (loop)
+			{
+				Thread.Sleep(TimeSpan.FromSeconds(2));
+			}
+
+
+
+
+
+			return;
 
 			// The little bit sophisticated approach.
 			// It requires more deep knowledge of the WeakClosure from a developer.
@@ -61,6 +85,17 @@ namespace Example.Console
 				}));
 
 		}
+
+		public static void RunLoanMemory()
+		{
+			var load = new List<Int32[,]>();
+			for (var i = 0; i < 10000; i++)
+			{
+				load.Add(new Int32[100, 100]);
+			}
+		}
+
+
 	}
 
 	/// <summary>
@@ -81,13 +116,26 @@ namespace Example.Console
 		
 		public static void DoExternalWork(Object someState, Action postAction)
 		{
-			// Do some things here...
+			Program.RunLoanMemory();
 
-			// Execute the post-action when all are done.
-			if (postAction != null)
-			{
-				postAction();
-			}
+			Thread.Sleep(TimeSpan.FromSeconds(5));
+
+			var th = new Thread(() =>
+			    {
+					Program.RunLoanMemory();
+
+					Thread.Sleep(TimeSpan.FromSeconds(5));
+
+					// Do some things here...
+
+					// Execute the post-action when all are done.
+					if (postAction != null)
+					{
+						postAction();
+					}
+			    });
+
+			th.Start();
 		}
 
 	}
