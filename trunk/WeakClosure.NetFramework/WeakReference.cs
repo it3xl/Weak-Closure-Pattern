@@ -42,7 +42,14 @@ namespace WeakClosureProject
 		{
 			get
 			{
-				return WeakReferenceHost.Target as T;
+				var target = WeakReferenceHost.Target;
+
+				if (WeakReferenceHost.IsAlive == false)
+				{
+					return null;
+				}
+
+				return target as T;
 			}
 			set
 			{
