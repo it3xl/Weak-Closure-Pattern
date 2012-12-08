@@ -16,73 +16,85 @@ namespace Example.Console
 			var someState = new Object();
 
 			//private static
-				ObjectSupplier objectSupplierStrongReference = new ObjectSupplier();
+			ObjectSupplier objectSupplierOfStrongReference = new ObjectSupplier();
 
-			var weakObjectSupplier = new WeakClosure<ObjectSupplier>(objectSupplierStrongReference);
+			WeakClosure<ObjectSupplier> weakObjectSupplier = new WeakClosure<ObjectSupplier>(objectSupplierOfStrongReference);
 
 			var someClosure_Dont_Do_So = new Object();
 
-			// The standart approach.
-			ObjectRecipient.DoExternalWork(
-				someState,
-				() =>
-					{
-						// !!! It's important! Don't use any other closures!
-						// You can use only the weakObjectSupplier!
-						//var forbidden_approach = someClosure_Dont_Do_So;
+
+			var useFirstSample = trueValue;
 
 
-						Thread.Sleep(TimeSpan.FromSeconds(3));
-						RunLoanMemory();
-						Thread.Sleep(TimeSpan.FromSeconds(3));
-						RunLoanMemory();
-						Thread.Sleep(TimeSpan.FromSeconds(3));
-
-
-						var objectSupplier = weakObjectSupplier
-							// You should understand what is the custom WeakReference{T} class at this project.
-							.TargetTyped;
-
-						if (objectSupplier == null)
+			if (useFirstSample)
+			{
+				// The standart approach.
+				ObjectRecipient.DoExternalWork(
+					someState,
+					() =>
 						{
-							return;
-						}
+							// !!! It's important! Don't create any other closures here!
+							// You can use only the weakObjectSupplier!
+							//var forbidden_approach = someClosure_Dont_Do_So;
+
+
+							Thread.Sleep(TimeSpan.FromSeconds(3));
+							RunLoanMemory();
+							Thread.Sleep(TimeSpan.FromSeconds(3));
+							RunLoanMemory();
+							Thread.Sleep(TimeSpan.FromSeconds(3));
+
+
+							ObjectSupplier objectSupplier = weakObjectSupplier
+								// You should understand what is the custom WeakReference{T} class at this project.
+								.TargetTyped;
+
+							if (objectSupplier == null)
+							{
+								return;
+							}
+
+							var someData = new Object();
+
+							objectSupplier.DoSomeThing(someData);
+						});
+
+
+				// The infinite loop that you can break from a debugger. For test use.
+				//var loop = true;
+				//while (loop)
+				//{
+				//    Thread.Sleep(TimeSpan.FromSeconds(2));
+				//}
+			}
+			else
+			{
+				// The little bit sophisticated approach.
+				// It requires more deep knowledge of the WeakClosure from a developer.
+				// But you shouldn't know what is the custom WeakReference{T} class at this project.
+				ObjectRecipient.DoExternalWork(
+					someState,
+					() => weakObjectSupplier
+						.ExecuteIfTargetNotNull(objectSupplier =>
+					{
+						// !!! It's important! Don't create any other closures here!
+						// You can use only the ExecuteIfTargetNotNull method action parameter - objectSupplier at this sample!
+						//var forbidden_approach = someClosure_Dont_Do_So;
 
 						var someData = new Object();
 
 						objectSupplier.DoSomeThing(someData);
-					});
+
+					}));
 
 
-			var loop = true;
-			while (loop)
-			{
-				Thread.Sleep(TimeSpan.FromSeconds(2));
+				// The infinite loop that you can break from a debugger. For test use.
+				//var loop = true;
+				//while (loop)
+				//{
+				//    Thread.Sleep(TimeSpan.FromSeconds(2));
+				//}
 			}
-
-
-
-
-
-			return;
-
-			// The little bit sophisticated approach.
-			// It requires more deep knowledge of the WeakClosure from a developer.
-			// But you shouldn't know what is the custom WeakReference{T} class at this project.
-			ObjectRecipient.DoExternalWork(
-				someState,
-				() => weakObjectSupplier
-					.ExecuteIfTargetNotNull(objectSupplier =>
-				{
-					// !!! It's important! Don't use any other closures!
-					// You can use only the ExecuteIfTargetNotNull method action parameter - objectSupplier!
-					//var forbidden_approach = someClosure_Dont_Do_So;
-
-					var someData = new Object();
-
-					objectSupplier.DoSomeThing(someData);
-
-				}));
 
 		}
 
@@ -96,10 +108,17 @@ namespace Example.Console
 		}
 
 
+		/// <summary>
+		/// Cheating the Resharper field with the true value. For good code reading by the Resharper users :).
+		/// If you delete it, then Resharper makes the second example not readable.
+		/// </summary>
+		private static Boolean trueValue = true;
+
+
 	}
 
 	/// <summary>
-	/// The object that hole the Post-Action 
+	/// The object that hold the Post-Action 
 	/// </summary>
 	public class ObjectSupplier
 	{
