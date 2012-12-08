@@ -18,7 +18,7 @@ namespace Example.Console
 			//private static
 			ObjectSupplier objectSupplierOfStrongReference = new ObjectSupplier();
 
-			WeakClosure<ObjectSupplier> weakObjectSupplier = new WeakClosure<ObjectSupplier>(objectSupplierOfStrongReference);
+			WeakClosure<ObjectSupplier> weakClosure = new WeakClosure<ObjectSupplier>(objectSupplierOfStrongReference);
 
 			var someClosure_Dont_Do_So = new Object();
 
@@ -45,7 +45,7 @@ namespace Example.Console
 							Thread.Sleep(TimeSpan.FromSeconds(3));
 
 
-							ObjectSupplier objectSupplier = weakObjectSupplier
+							ObjectSupplier objectSupplier = weakClosure
 								// You should understand what is the custom WeakReference{T} class at this project.
 								.TargetTyped;
 
@@ -74,7 +74,7 @@ namespace Example.Console
 				// But you shouldn't know what is the custom WeakReference{T} class at this project.
 				ObjectRecipient.DoExternalWork(
 					someState,
-					() => weakObjectSupplier
+					() => weakClosure
 						.ExecuteIfTargetNotNull(objectSupplier =>
 					{
 						// !!! It's important! Don't create any other closures here!
