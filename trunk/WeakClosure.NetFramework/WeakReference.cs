@@ -7,8 +7,7 @@ namespace WeakClosureProject
 	/// The Silverlight supported.<para/>
 	/// Kick it out if you use the .NET Framework 4.5 or earlier.
 	/// <para/>
-	/// Причина появления: реализация типизированной WeakReference появится только начиная с .Net Framework 4.5.<para/>
-	/// Also other implementations has no Silverlight support (.NET Framework 4.5 too).
+	/// Also other implementations has no Silverlight support (.NET Framework 4.5 too has no).
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class WeakReference<T>
