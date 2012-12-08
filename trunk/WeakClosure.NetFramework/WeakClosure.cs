@@ -33,13 +33,13 @@ namespace WeakClosureProject
 
 		/// <summary>
 		/// Удобный метод, позволяющий сократить код за счет инкапсуляции в нем проверок на null целевого объекта.<para/>
-		/// !!! Don't create any closure at the <see cref="action"/>.<para/>
-		/// Use the <see cref="action"/> parameter only.<para/>
+		/// !!! Don't create any closure at the <see cref="action"/> parameter.<para/>
+		/// Use the <see cref="action"/>'s parameter only.<para/>
 		/// <para/>
-		/// Если вы сомневаетесь или не знаете, что такое замыкание, то не используйте этот метод!
-		/// Или используйте обычную проверку на if(<see cref="WeakReference{T}.TargetTyped"/> != null).
+		/// Don't use this method if you don't know what is the Closures!
+		/// Just use the next simple check instead this method: if(<see cref="WeakReference{T}.TargetTyped"/> != null).
 		/// </summary>
-		/// <param name="action"></param>
+		/// <param name="action">The action withour closures! Use the <see cref="action"/>'s parameter only!</param>
 		[DebuggerStepThrough]
 		public void ExecuteIfTargetNotNull(Action<T> action)
 		{
