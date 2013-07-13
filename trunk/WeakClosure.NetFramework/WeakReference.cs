@@ -5,7 +5,7 @@ namespace WeakClosureProject
 	/// <summary>
 	/// it3xl.com: maximally simplified generic implementation of the <see cref="WeakReference"/>.<para/>
 	/// The Silverlight supported.<para/>
-	/// Kick it out if you use the .NET Framework 4.5 or earlier.
+	/// Kick it out if you use the .NET Framework 4.5 or later.
 	/// <para/>
 	/// Also other implementations has no Silverlight support (.NET Framework 4.5 too has no).
 	/// </summary>
