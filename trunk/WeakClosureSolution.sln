@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakClosure.NetFramework", "WeakClosure.NetFramework\WeakClosure.NetFramework.csproj", "{336FD1A4-2F3F-4440-8F51-AF6060F0B15E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeakClosure.Silverlight", "WeakClosure.Silverlight\WeakClosure.Silverlight.csproj", "{C600799E-808C-44C3-BDB6-4AE824DC8E93}"
