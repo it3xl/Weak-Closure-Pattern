@@ -2,7 +2,7 @@
 
 ### It is a weak closure implementation for .NET
 
-Creation of the closure behavior that will be independent from any .NET compiler.
+Creation of the closure behavior that will not be dependent from any .NET compiler.
 
 **Sorry, it is under development and it is for me**
 
