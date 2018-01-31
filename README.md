@@ -4,7 +4,7 @@
 
 Creation of the closure behavior that will not be dependent from any .NET compiler.
 
-**Sorry, it is under development and it is for me**
+**Sorry, it is under development and this project is personally for me**
 
 **This project requires the [Weak Delegate](https://github.com/it3xl/WeakDelegate) project.**
 
