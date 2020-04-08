@@ -19,4 +19,4 @@ To remember thoughts here see an example:
 [program.cs](https://github.com/it3xl/Weak-Closure-Pattern/blob/master/trunk/Example.Console/Program.cs)<br/>
 Or download the entire solution.
 
-it3xl.com
+it3xl.ru
